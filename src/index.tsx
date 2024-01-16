@@ -19,7 +19,11 @@ export interface HeatMapGridProps {
   yLabelsStyle?: (index: number) => {}
   cellStyle?: (x: number, y: number, ratio: number) => {}
   cellRender?: (x: number, y: number, value: number) => {}
-  cellExtraProps?: React.HTMLAttributes<HTMLDivElement>
+  cellExtraProps?: (
+    x: number,
+    y: number,
+    value: number
+  ) => React.HTMLAttributes<HTMLDivElement>
   onClick?: (x: number, y: number) => void
 }
 

@@ -10,7 +10,11 @@ interface Props {
   height?: string
   square?: boolean
   onClick?: (x: number, y: number) => void
-  extraProps?: React.HTMLAttributes<HTMLDivElement>
+  extraProps?: (
+    x: number,
+    y: number,
+    value: number
+  ) => React.HTMLAttributes<HTMLDivElement>
 }
 
 function noop<T>(returnVal: T) {
@@ -27,7 +31,7 @@ const Cell = ({
   height = '2rem',
   value,
   onClick,
-  extraProps = {}
+  extraProps = noop({})
 }: Props) => {
   return (
     <div
@@ -51,7 +55,7 @@ const Cell = ({
         backgroundColor: `rgb(12, 160, 44, ${ratio + 0.05})`,
         ...style(posX, posY, ratio)
       }}
-      {...extraProps}
+      {...extraProps(posX, posY, value)}
     >
       {render(posX, posY, value)}
     </div>
