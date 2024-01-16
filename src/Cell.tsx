@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 
 interface Props {
-  render?: (x: number, y: number, ratio: number) => {}
+  render?: (x: number, y: number, ratio: number) => ReactNode
   posX: number
   posY: number
   style?: (x: number, y: number, ratio: number) => {}
@@ -10,9 +10,12 @@ interface Props {
   height?: string
   square?: boolean
   onClick?: (x: number, y: number) => void
+  extraProps?: React.HTMLAttributes<HTMLDivElement>
 }
 
-const noop = (returnVal: any) => () => returnVal
+function noop<T>(returnVal: T) {
+  return () => returnVal
+}
 
 const Cell = ({
   render = noop(null),
@@ -23,13 +26,15 @@ const Cell = ({
   square = false,
   height = '2rem',
   value,
-  onClick
+  onClick,
+  extraProps = {}
 }: Props) => {
   return (
     <div
       onClick={() => (onClick || noop({}))(posX, posY)}
       style={{
-        border: '1px solid #fff',
+        borderStyle: 'solid',
+        borderColor: '#fff',
         borderWidth: '1px 1px 0 0',
         textAlign: 'center',
         color: `rgb(0, 0, 0, ${ratio / 2 + 0.4})`,
@@ -43,9 +48,10 @@ const Cell = ({
         borderRadius: '4px',
         fontSize: '.8rem',
         cursor: onClick ? 'pointer' : 'initial',
-        background: `rgb(12, 160, 44, ${ratio + 0.05})`,
+        backgroundColor: `rgb(12, 160, 44, ${ratio + 0.05})`,
         ...style(posX, posY, ratio)
       }}
+      {...extraProps}
     >
       {render(posX, posY, value)}
     </div>

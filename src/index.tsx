@@ -19,6 +19,7 @@ export interface HeatMapGridProps {
   yLabelsStyle?: (index: number) => {}
   cellStyle?: (x: number, y: number, ratio: number) => {}
   cellRender?: (x: number, y: number, value: number) => {}
+  cellExtraProps?: React.HTMLAttributes<HTMLDivElement>
   onClick?: (x: number, y: number) => void
 }
 
@@ -41,6 +42,7 @@ export const HeatMapGrid = ({
   yLabelsStyle,
   cellStyle,
   cellRender,
+  cellExtraProps,
   onClick
 }: HeatMapGridProps) => {
   const [xLabelHeight, xLabelRef] = useElementHeight(22)
@@ -80,6 +82,7 @@ export const HeatMapGrid = ({
             <Row key={xi}>
               {rowItems.map((value, yi) => (
                 <Cell
+                  extraProps={cellExtraProps}
                   key={`${xi}-${yi}`}
                   posX={xi}
                   posY={yi}
